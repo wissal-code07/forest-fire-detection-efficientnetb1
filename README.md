@@ -1,65 +1,113 @@
-# Forest Fire Detection using EfficientNet-B1
+# 🔥 Forest Fire Detection using EfficientNet-B1
 
-Deep learning project for forest fire image classification using EfficientNet-B1 and PyTorch.
+![Python](https://img.shields.io/badge/Python-3.8+-blue?logo=python)
+![PyTorch](https://img.shields.io/badge/PyTorch-2.0-red?logo=pytorch)
+![EfficientNet](https://img.shields.io/badge/Model-EfficientNet--B1-orange)
+![Accuracy](https://img.shields.io/badge/Accuracy-high-brightgreen)
+![License](https://img.shields.io/badge/License-MIT-green)
 
-## Project Overview
+A deep learning project for **automatic forest fire detection** from images using **EfficientNet-B1** and **PyTorch**, with Grad-CAM explainability and advanced evaluation metrics.
 
-This project focuses on automatic forest fire detection from images using a Convolutional Neural Network (CNN) based on the EfficientNet-B1 architecture.
+> 🎓 Master's project — Computer Science, Visual Computing
 
-The objective is to classify images into two categories:
+---
 
-- Fire
-- Non-Fire
+## 📌 Table of Contents
+- [Overview](#overview)
+- [Demo](#demo)
+- [Architecture](#architecture)
+- [Dataset](#dataset)
+- [Results](#results)
+- [How to Run](#how-to-run)
+- [Project Structure](#project-structure)
+- [Future Work](#future-work)
+- [Author](#author)
 
-This type of system can contribute to early wildfire detection and environmental monitoring applications.
+---
 
-## Technologies Used
+## 🌍 Overview
 
-- Python
-- PyTorch
-- TorchVision
-- NumPy
-- OpenCV
-- Matplotlib
-- Scikit-learn
-- Google Colab
+Wildfires cause devastating damage to ecosystems and human lives every year.
+This project builds an **automated fire detection system** that classifies images into:
 
-## Model Architecture
+| Class | Description |
+|---|---|
+| 🔥 **Fire** | Image contains visible fire or smoke |
+| 🌲 **No Fire** | Normal forest/environment image |
 
-The project uses a pre-trained EfficientNet-B1 model with transfer learning.
+The system leverages **transfer learning** on EfficientNet-B1 pretrained on ImageNet,
+fine-tuned for binary fire classification — enabling high accuracy with limited data.
 
-### Fine-tuning Strategy
+---
 
-- Pretrained ImageNet weights
-- Frozen early layers
-- Fine-tuning of the last EfficientNet blocks
-- Custom classification head
+## 🏗️ Model Architecture
 
-The final classifier contains:
-
-- Dropout layers
-- Fully connected layers
-- ReLU activation
-- Binary classification output
-
-## Data Preprocessing
-
-The following preprocessing and augmentation techniques were applied:
-
-- Image resizing
-- Normalization using ImageNet statistics
-- Random horizontal flip
-- Rotation
-- Zoom / crop transformations
-- Data augmentation
-
-Input image size:
-
-```python
-240 x 240
+```
+Input Image (240×240)
+        │
+        ▼
+┌─────────────────────────┐
+│   EfficientNet-B1        │  ← Pretrained on ImageNet
+│   (frozen early layers)  │
+│   (fine-tuned last blocks)│
+└────────────┬────────────┘
+             │
+        ▼
+┌─────────────────────────┐
+│   Custom Classifier      │
+│   Linear → ReLU          │
+│   Dropout                │
+│   Linear → Output (2)    │
+└────────────┬────────────┘
+             │
+        ▼
+   Fire / No Fire
 ```
 
-## Training Configuration
+### Fine-tuning Strategy
+- ✅ Pretrained **ImageNet** weights
+- 🔒 Frozen early EfficientNet layers
+- 🔓 Fine-tuned last EfficientNet blocks
+- 🧠 Custom classification head with Dropout + FC layers
+
+---
+
+## 📊 Dataset
+
+> The dataset is **not included** in this repository due to its size.
+
+### 📥 Download
+🔗 **[DeepFire Dataset — Google Drive](https://drive.google.com/drive/folders/1OVrm-tAjK_ifwEoiK45EtGXOq3fegwOK)**
+
+### 📁 Expected Structure
+After downloading, place the data as follows:
+
+```
+data/
+└── Forest Fire Dataset/
+    ├── Train/
+    │   ├── Fire/
+    │   └── No_Fire/
+    ├── Validation/
+    │   ├── Fire/
+    │   └── No_Fire/
+    └── Test/
+        ├── Fire/
+        └── No_Fire/
+```
+
+### 🔄 Data Preprocessing & Augmentation
+| Technique | Details |
+|---|---|
+| Resize | 240 × 240 pixels |
+| Normalization | ImageNet mean & std |
+| Random Horizontal Flip | Training only |
+| Rotation | Random angle |
+| Zoom / Crop | Random resized crop |
+
+---
+
+## ⚙️ Training Configuration
 
 | Parameter | Value |
 |---|---|
@@ -68,85 +116,107 @@ Input image size:
 | Learning Rate | 1e-4 |
 | Optimizer | Adam |
 | Loss Function | CrossEntropyLoss |
+| Hardware | GPU (Google Colab) |
+| Input Size | 240 × 240 |
 
-## Evaluation Metrics
+---
 
-The model was evaluated using:
+## 📈 Results
 
-- Accuracy
-- Precision
-- Recall
-- F1-Score
-- ROC Curve
-- PR Curve
-- Confusion Matrix
+The model was evaluated using the following metrics:
 
-## Visualization and Explainability
+- ✅ Accuracy
+- ✅ Precision / Recall / F1-Score
+- ✅ ROC Curve & AUC
+- ✅ Precision-Recall Curve
+- ✅ Confusion Matrix
 
-The project includes several visualization techniques:
+### 🔍 Grad-CAM Explainability
 
-- Training and validation accuracy/loss curves
-- Confusion matrix
-- ROC and Precision-Recall curves
-- Prediction visualization
-- Grad-CAM heatmaps for model interpretability
+**Grad-CAM** (Gradient-weighted Class Activation Mapping) was used to visualize
+which regions of the image most influenced the model's prediction —
+making the model interpretable and trustworthy.
 
-Grad-CAM was used to visualize the regions of the image that influenced the model predictions.
+> 🔥 Red/warm zones = regions detected as fire-related features
 
-## Dataset
+---
 
-The dataset is stored on Google Drive.
+## 🛠️ Technologies Used
 
-Dataset Link:
+![Python](https://img.shields.io/badge/-Python-3776AB?logo=python&logoColor=white&style=flat)
+![PyTorch](https://img.shields.io/badge/-PyTorch-EE4C2C?logo=pytorch&logoColor=white&style=flat)
+![OpenCV](https://img.shields.io/badge/-OpenCV-5C3EE8?logo=opencv&logoColor=white&style=flat)
+![NumPy](https://img.shields.io/badge/-NumPy-013243?logo=numpy&logoColor=white&style=flat)
+![Scikit--learn](https://img.shields.io/badge/-Scikit--learn-F7931E?logo=scikit-learn&logoColor=white&style=flat)
+![Colab](https://img.shields.io/badge/-Google%20Colab-F9AB00?logo=googlecolab&logoColor=white&style=flat)
 
-(Add your Google Drive dataset link here)
+---
 
-Dataset structure:
-
-```text
-Forest Fire Dataset/
-│
-├── Train/
-├── Validation/
-└── Test/
-```
-
-## How to Run
+## 🚀 How to Run
 
 ### 1. Clone the repository
-
 ```bash
-git clone https://github.com/your-username/your-repository-name.git
+git clone https://github.com/your-username/forest-fire-detection.git
+cd forest-fire-detection
 ```
 
 ### 2. Install dependencies
-
 ```bash
 pip install -r requirements.txt
 ```
 
-### 3. Open the notebook
+### 3. Download the dataset
+🔗 [Download from Google Drive](https://drive.google.com/drive/folders/1OVrm-tAjK_ifwEoiK45EtGXOq3fegwOK)
+Place the data in the `data/` folder as shown above.
 
-Run the notebook using:
+### 4. Run the notebook
+Open with **Jupyter Notebook** or **Google Colab**:
+```bash
+jupyter notebook fire_detection.ipynb
+```
 
-- Jupyter Notebook
-- Google Colab
+---
 
-## Project Features
+## 📂 Project Structure
 
-- Transfer Learning with EfficientNet-B1
-- Forest fire image classification
-- Advanced evaluation metrics
-- Grad-CAM visualization
-- GPU acceleration with PyTorch
-- Data augmentation techniques
+```
+forest-fire-detection/
+│
+├── 📓 fire_detection.ipynb     # Main notebook
+├── 📄 requirements.txt         # Dependencies
+├── 📄 README.md                # This file
+│
+├── 📁 data/                    # Dataset (not included — see link above)
+│   └── Forest Fire Dataset/
+│       ├── Train/
+│       ├── Validation/
+│       └── Test/
+│
+└── 📁 outputs/                 # Results, plots, saved model
+    ├── confusion_matrix.png
+    ├── roc_curve.png
+    ├── gradcam_examples.png
+    └── model_efficientnet_b1.pth
+```
 
-## Future Improvements
+---
 
-Possible future improvements include:
+## 🔮 Future Work
 
-- Real-time wildfire detection
-- Video-based fire detection
-- Deployment using Streamlit or Flask
-- Mobile application integration
-- Testing other architectures (ResNet, EfficientNetV2, Vision Transformers)
+- [ ] 🎥 Real-time fire detection from video streams
+- [ ] 🌐 Web deployment using **Streamlit** or **Flask**
+- [ ] 📱 Mobile application integration
+- [ ] 🧪 Testing other architectures: ResNet, EfficientNetV2, Vision Transformers
+- [ ] 🛰️ Integration with satellite or drone imagery
+
+---
+
+## 👩‍💻 Author
+
+**[Wissal benkouider]**
+Master's in Computer Science — Visual Computing, USTHB
+🔗 [LinkedIn](https://www.linkedin.com/in/benkouider-wissal-59a7172b7/) · 🐙
+
+---
+
+> ⭐ If you find this project useful, feel free to star the repository!
